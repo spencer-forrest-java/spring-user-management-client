@@ -1,0 +1,82 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">New User</h5>
+      <button (click)="onClose(newUserForm)" aria-label="Close" class="close" data-dismiss="modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <form #newUserForm="ngForm" (ngSubmit)="onAddNewUser(newUserForm)" id="new-user-form">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input class="form-control" id="firstName" name="firstName" ngModel required type="text"/>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input class="form-control" id="lastName" name="lastName" ngModel required type="text"/>
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username" name="username" ngModel required type="text"/>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" id="email" name="email" ngModel required type="email"/>
+          </div>
+          <div *ngIf="isAdmin" class="form-group">
+            <label for="roles">Role</label>
+            <select class="form-control" id="roles" name="role" ngModel="ROLE_USER" required>
+              <option value="ROLE_USER">USER</option>
+              <option value="ROLE_MANAGER">MANAGER</option>
+              <option value="ROLE_ADMIN">ADMIN</option>
+              <option value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
+            </select>
+          </div>
+          <div *ngIf="!isAdmin" class="form-group">
+            <label for="role">Role</label>
+            <input class="form-control" id="role" name="role" ngModel="USER" readonly required type="text"/>
+          </div>
+          <div class="text-danger mb-1">Maximum size: 1 MB</div>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Image</span>
+            </div>
+            <div class="custom-file">
+              <input (change)="onProfileImageChange($event.target)" accept="image/*" class="custom-file-input"
+                     name="profileImage" type="file"/>
+              <label class="custom-file-label">
+                <span [hidden]="!fileName">{{ fileName }}</span>
+                <span [hidden]="fileName">Choose File</span>
+              </label>
+            </div>
+          </div>
+          <fieldset class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="active" ngModel type="checkbox"/>
+                Active
+              </label>
+            </div>
+            <div class="form-check disabled">
+              <label class="form-check-label">
+                <input class="form-check-input" name="notLocked" ngModel type="checkbox"/>
+                Unlocked
+              </label>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button (click)="onClose(newUserForm)" class="btn btn-secondary" data-dismiss="modal" id="new-user-close"
+              type="button">
+        Close
+      </button>
+      <button [disabled]="newUserForm.invalid" class="btn btn-primary" form="new-user-form" type="submit">
+        Save changes
+      </button>
+    </div>
+  </div>
+</div>

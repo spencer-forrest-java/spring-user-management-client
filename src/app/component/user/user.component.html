@@ -1,0 +1,151 @@
+<!-- nav bar -->
+<div class="bg-light">
+  <nav class="container py-3">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a (click)="getUsers(false); refreshLoggedInUser()" aria-controls="users"
+           aria-selected="true" class="nav-link ml-md-4 active" data-toggle="tab"
+           href="#users"
+           role="tab"
+        >
+          <i class="fa fa-users"></i> Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [hidden]="!isAdmin" aria-controls="reset-password" aria-selected="true"
+           class="nav-link ml-md-4"
+           data-toggle="tab"
+           href="#reset-password" role="tab"
+        >
+          <i class="fa fa-cogs"></i> Settings
+        </a>
+      </li>
+      <li class="nav-item">
+        <a aria-controls="profile" aria-selected="true" class="nav-link ml-md-4"
+           data-toggle="tab"
+           href="#profile"
+           role="tab"
+        >
+          <i class="fa fa-user"></i> Profile: {{ loggedInUser.firstName }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="container" id="main-container">
+
+  <!-- main content -->
+  <div class="tab-content mt-3" id="myTabContent">
+
+    <!-- user table -->
+    <div aria-labelledby="tab-1" class="tab-pane fade show active" id="users" role="tabpanel">
+      <div class="row">
+        <form class="col-lg-6 d-lg-inline mb-2">
+            <label for="searchTerm" class="sr-only">Search Term</label>
+            <input #searchInput="ngModel" (ngModelChange)="searchUsers(searchInput.value)" class="form-control"
+                   id="searchTerm"
+                   name="searchTerm" ngModel
+                   placeholder="Search users..."
+                   type="search"
+            />
+        </form>
+        <div class="col-lg-2 offset-lg-1 mb-2">
+          <button [hidden]="!isAdmin" class="btn btn-info col" data-target="#addUserModal" data-toggle="modal"
+                  type="button">
+            <i class="fa fa-plus"></i> New User
+          </button>
+        </div>
+        <div class="col-lg-1 offset-lg-2 mb-2">
+          <button (click)="getUsers(true)" class="btn btn-info col" type="button">
+            <i *ngIf="refreshing" class="fas fa-sync fa-spin"></i>
+            <i *ngIf="!refreshing" class="fas fa-sync"></i>
+          </button>
+        </div>
+      </div>
+
+      <table class="table table-hover table-responsive-lg">
+        <thead class="table-borderless">
+        <tr class="text-center">
+          <th>Photo</th>
+          <th>User ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let appUser of users">
+        <tr class="text-center">
+          <td (click)="onSelectUser(appUser)">
+            <img alt="{{ appUser.firstName }} {{ appUser.lastName }} profile picture"
+                 class="rounded-circle img-fluid img-thumbnail"
+                 height="40"
+                 src="{{ appUser?.profileImageUrl }}"
+                 width="40"/>
+          </td>
+          <td (click)="onSelectUser(appUser)">{{ appUser?.userId }}</td>
+          <td (click)="onSelectUser(appUser)">{{ appUser?.firstName }}</td>
+          <td (click)="onSelectUser(appUser)">{{ appUser?.lastName }}</td>
+          <td (click)="onSelectUser(appUser)">{{ appUser?.username }}</td>
+          <td (click)="onSelectUser(appUser)">{{ appUser?.email }}</td>
+          <td (click)="onSelectUser(appUser)">
+              <span [hidden]="!appUser?.active" class="badge badge-success">
+                Active
+              </span>
+            <span [hidden]="appUser?.active" class="badge badge-danger">
+                Inactive
+              </span>
+          </td>
+          <td class="">
+            <div class="btn-group">
+              <button (click)="onEditUser(appUser)" class="btn btn-outline-info">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button (click)="onDeleteUser(appUser.username)" [hidden]="!isAdmin" class="btn btn-outline-danger">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button [hidden]="true" data-target="#viewUserModal" data-toggle="modal" id="openUserInfo" type="button"></button>
+    <button [hidden]="true" data-target="#editUserModal" data-toggle="modal" id="openUserEdit" type="button"></button>
+
+    <!-- settings - reset password -->
+    <app-settings [hidden]="!isAdmin" aria-labelledby="tab-2" class="tab-pane fade" id="reset-password"
+                  role="tabpanel">
+    </app-settings>
+
+    <!-- user profile -->
+    <app-profile [loggedInUser]="loggedInUser" aria-labelledby="tab-3" class="tab-pane fade" id="profile"
+                 role="tabpanel">
+    </app-profile>
+
+    <!-- modal user info -->
+    <app-modal-user-info [user]="this.selectedUser" aria-hidden="true" class="modal fade bd-example-modal-lg"
+                         id="viewUserModal" role="dialog" tabindex="-1">
+    </app-modal-user-info>
+
+    <!-- modal add user -->
+    <app-modal-add-user (added)="getUsers(false)" [hidden]="!isAdmin" aria-hidden="true"
+                        class="modal fade bd-example-modal-lg" id="addUserModal" role="dialog"
+                        tabindex="-1">
+    </app-modal-add-user>
+
+    <!-- modal edit user -->
+    <app-modal-edit-user (userUpdated)="getUsers(false)" [currentUsername]="currentUsername"
+                         [editUser]="editUser"
+                         [loggedInUser]="loggedInUser" aria-hidden="true"
+                         class="modal fade bd-example-modal-lg"
+                         id="editUserModal"
+                         role="dialog"
+                         tabindex="-1">
+    </app-modal-edit-user>
+  </div>
+</div>

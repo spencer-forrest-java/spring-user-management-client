@@ -1,0 +1,211 @@
+<div class="container">
+  <div class="row flex-lg-nowrap">
+    <div class="col">
+      <div class="row">
+        <div class="col mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="e-profile">
+                <div class="row">
+                  <div class="col-12 col-sm-auto">
+                    <div class="mx-auto" style="width: 120px">
+                      <div class="d-flex justify-content-center align-items-center rounded">
+                        <img alt="" class="rounded" height="135" src="{{ loggedInUser.profileImageUrl }}" width="135"/>
+                      </div>
+                      <div *ngIf="true" class="progress mt-1">
+                        <div [style.width.%]="fileStatus.percentage" aria-valuemax="100" aria-valuemin="0"
+                             aria-valuenow="0"
+                             class="progress-bar bg-info"
+                             role="progressbar">
+                          {{ this.fileStatus.percentage }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                    <div class="text-center text-sm-left mb-2 mb-sm-0">
+                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                        {{ loggedInUser.firstName }}
+                        {{ loggedInUser.lastName }}
+                      </h4>
+                      <p class="mb-0">{{ loggedInUser.username }}</p>
+                      <div *ngIf="loggedInUser.lastLoginDisplay !== null" class="text-muted">
+                        <small>
+                          Last login:
+                          {{ loggedInUser.lastLoginDisplay | date: "medium" }}
+                        </small>
+                      </div>
+                      <div class="mt-2">
+                        <button (click)="updateProfileImage()" class="btn btn-primary" type="button">
+                          <i class="fa fa-fw fa-camera"></i>
+                          <span>Change Photo</span>
+                        </button>
+                      </div>
+                      <div class="text-danger mt-2">Maximum size: 1 MB</div>
+                    </div>
+                    <div class="text-center text-sm-right">
+                      <div class="text-muted">
+                        <small>
+                          Joined {{ loggedInUser.joinDate | date: "mediumDate" }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-content pt-3">
+                  <div class="tab-pane active">
+                    <form (ngSubmit)="onUpdateCurrentUser()" class="form" novalidate>
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input [(ngModel)]="loggedInUser.firstName" [disabled]="loggedInUser.username==='admin'"
+                                       class="form-control" id="firstName" name="firstName" required type="text"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input [(ngModel)]="loggedInUser.lastName" [disabled]="loggedInUser.username==='admin'"
+                                       class="form-control" id="lastName" name="lastName" required type="text"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="username">Username</label>
+                                <input [(ngModel)]="loggedInUser.username" [disabled]="loggedInUser.username==='admin'"
+                                       class="form-control" id="username" name="username" required type="text"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="email">Email</label>
+                                <input [(ngModel)]="loggedInUser.email" [disabled]="loggedInUser.username==='admin'"
+                                       class="form-control" id="email" name="email" required type="text"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col mb-3">
+                              <div class="form-group">
+                                <label>Role</label>
+                                <small *ngIf="!isAdmin">(read only)</small>
+                                <small *ngIf="isAdmin" class="text-danger d-block d-lg-inline mb-3">
+                                  (Updating your role will log you out)
+                                </small>
+                                <label for="role" class="sr-only">Role</label>
+                                <select [(ngModel)]="loggedInUser.role" [disabled]="loggedInUser.username==='admin'"
+                                        class="form-control" id="role" name="role" required
+                                >
+                                  <option [hidden]="!isAdmin && loggedInUser.role !== 'ROLE_USER'" value="ROLE_USER">
+                                    USER
+                                  </option>
+                                  <option [hidden]="!isAdmin && loggedInUser.role !== 'ROLE_MANAGER'"
+                                          value="ROLE_MANAGER">
+                                    MANAGER
+                                  </option>
+                                  <option [hidden]="!isAdmin" value="ROLE_ADMIN">
+                                    ADMIN
+                                  </option>
+                                  <option [hidden]="!isAdmin" value="ROLE_SUPER_ADMIN">
+                                    SUPER ADMIN
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                          <div class="mb-2"><b>Account Settings</b></div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="custom-controls-stacked px-2">
+                                <fieldset class="form-group">
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input [(ngModel)]="loggedInUser.active"
+                                             [disabled]="!isManager || loggedInUser.username == 'admin'"
+                                             class="form-check-input" name="active" type="checkbox"
+                                      />
+                                      Active <small [hidden]="isManager">(read only)</small>
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input [(ngModel)]="loggedInUser.notLocked"
+                                             [disabled]="!isManager || loggedInUser.username == 'admin'"
+                                             class="form-check-input" name="notLocked" type="checkbox"
+                                      />
+                                      Unlocked <small [hidden]="isManager">(read only)</small>
+                                    </label>
+                                  </div>
+                                </fieldset>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col d-flex justify-content-end">
+                          <button [disabled]="loggedInUser.username==='admin'" class="btn btn-primary" type="submit">
+                            <i *ngIf="refreshing" class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
+                            <span *ngIf="refreshing">Loading...</span>
+                            <span *ngIf="!refreshing">Save Changes</span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 mb-3">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="px-xl-3">
+                <button (click)="onLogOut()" class="btn btn-block btn-secondary">
+                  <span>Logout</span>
+                  <i class="fas fa-sign-in-alt ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title font-weight-bold">
+                Permissions From Role
+              </h6>
+              <h6 *ngFor="let authority of loggedInUser.authorities" class="card-text">
+                {{ authority }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- profile image change form -->
+<form enctype="multipart/form-data" style="display: none">
+  <input (change)="onUpdateProfileImage($event.target)" accept="image/*" id="profile-image-input"
+         name="profile-image-input"
+         placeholder="file" type="file"
+  />
+</form>
