@@ -3,7 +3,7 @@
 Web Client to perform CRUD operations on users and reset passwords.<br>
 (Back-End - <a href="https://github.com/spencer-forrest-java/spring-user-management-api">User Management API</a>)
 <br><br>
-For any questions contact me at 
+For any questions contact me at
 [Spencer Forrest](mailto:spencer.forrest.java@gmail.com?subject=[GitHub]%20User%20Management%20Client).
 
 ## Technologies used
@@ -15,8 +15,8 @@ For any questions contact me at
 ## Description
 
 This application allows logged user with enough credentials to perform CRUD operations on a user. The user will receive
-a new automatically generated password by email upon registration or by having their password reset by an admin or a super
-admin.<br>
+a new automatically generated password by email upon registration or by having their password reset by an admin or a
+super admin.<br>
 
 ## Screenshots
 
@@ -92,25 +92,25 @@ User profile page
 
 ### Small Screens (Phone size)
 
-![Login Screen](images/responsive/login-sm.png) ![Notification wrong password](images/responsive/login-error-sm.png) 
+![Login Screen](images/responsive/login-sm.png) ![Notification wrong password](images/responsive/login-error-sm.png)
 
-![Notification account locked](images/responsive/login-locked-sm.png) ![Registration form](images/responsive/registration-sm.png) 
+![Notification account locked](images/responsive/login-locked-sm.png) ![Registration form](images/responsive/registration-sm.png)
 
 ![Administration list users](images/responsive/admin-list-sm.png) ![User list users](images/responsive/user-list-sm.png)
 
-![Users loaded notification](images/responsive/loaded-users-sm.png) ![Adding New User](images/responsive/new-user-sm.png) 
+![Users loaded notification](images/responsive/loaded-users-sm.png) ![Adding New User](images/responsive/new-user-sm.png)
 
-![User information](images/responsive/info-sm.png) ![User editing form](images/responsive/edit-sm.png) 
+![User information](images/responsive/info-sm.png) ![User editing form](images/responsive/edit-sm.png)
 
 ![Administration reset password](images/responsive/password-sm.png) ![Administration reset password error](images/responsive/password-error-sm.png)
 
-![Special Administration Profile](images/responsive/profile-sm.png) ![Special Administration Profile](images/responsive/profile-2-sm.png) 
+![Special Administration Profile](images/responsive/profile-sm.png) ![Special Administration Profile](images/responsive/profile-2-sm.png)
 
-![Super Admin profile](images/responsive/super-profile-sm.png) ![Super Admin profile](images/responsive/super-profile-2-sm.png) 
+![Super Admin profile](images/responsive/super-profile-sm.png) ![Super Admin profile](images/responsive/super-profile-2-sm.png)
 
 ![Admin profile](images/responsive/admin-profile-sm.png) ![Admin profile](images/responsive/admin-profile-2-sm.png)
 
-![Manager profile](images/responsive/manager-profile-sm.png) ![Manager profile](images/responsive/manager-profile-2-sm.png) 
+![Manager profile](images/responsive/manager-profile-sm.png) ![Manager profile](images/responsive/manager-profile-2-sm.png)
 
 ![User profile](images/responsive/user-profile-sm.png) ![User profile](images/responsive/user-profile-2-sm.png)
 
@@ -157,8 +157,7 @@ A user is assigned a role. There are 4 roles in total:
   <br>
   the account will be locked. Only a manager, admin or super admin can unlock this account.
   <br><br>
-* Passwords are automatically generated and sent by email to users 
-  upon registration or upon resetting it. 
+* Passwords are automatically generated and sent by email to users upon registration or upon resetting it.
   <br><br>
 * There is a search functionality. It helps to look for a user by first name, last name, username or email.
   <br><br>
