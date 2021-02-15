@@ -18,6 +18,62 @@ This application allows logged user with enough credentials to perform CRUD oper
 a new automatically generated password by email upon registration or by having their password reset by an admin or a
 super admin.<br>
 
+## Roles and Authorities
+
+There are 4 authorities (permissions):
+
+* Create a user
+* Read a user information
+* Update a user
+* Delete a user
+
+A user is assigned a role. There are 4 roles in total:
+
+* Super Admin can:
+  * Add new users
+  * Read users information
+  * Update user's information
+  * Delete a user
+  * Reset a user's password
+* Admin can:
+  * Add new users
+  * Read users information
+  * Update user's information
+  * Reset a user's password
+* Manager can:
+  * Read users information
+  * Update user's information except:
+    * His/her role
+* User can:
+  * Read users information
+  * Update his/her own information except:
+    * Active status
+    * Locked status
+    * His/her role
+
+## More Business Logic
+
+* There is a special super admin with the username "admin".
+  <br>
+  This user cannot be deleted or updated except for his profile picture.
+  <br><br>
+* If a user tries to log in with a correct username but fails 6 times in a row,
+  <br>
+  the account will be locked. Only a manager, admin or super admin can unlock this account.
+  <br><br>
+* Passwords are automatically generated and sent by email to users upon registration or upon resetting it.
+  <br><br>
+* There is a search functionality. It helps to look for a user by first name, last name, username or email.
+  <br><br>
+* Unauthorized actions will result in an error being sent by
+  <a href="https://github.com/spencer-forrest-java/spring-user-management-api">the backend</a>:
+  * For instance, the delete button is intentionally shown for users with the role "admin" even though they do not have
+    the "Delete" authority.
+  * If an "admin" tries to delete a user, an error message will appear stating that this user does not have enough
+    permission to perform this action.
+    <br><br>
+    ![Delete error](images/delete-error.png)
+
 ## Screenshots
 
 ### Large Screens
@@ -113,59 +169,3 @@ User profile page
 ![Manager profile](images/responsive/manager-profile-sm.png) ![Manager profile](images/responsive/manager-profile-2-sm.png)
 
 ![User profile](images/responsive/user-profile-sm.png) ![User profile](images/responsive/user-profile-2-sm.png)
-
-## Roles and Authorities
-
-There are 4 authorities (permissions):
-
-* Create a user
-* Read a user information
-* Update a user
-* Delete a user
-
-A user is assigned a role. There are 4 roles in total:
-
-* Super Admin can:
-  * Add new users
-  * Read users information
-  * Update user's information
-  * Delete a user
-  * Reset a user's password
-* Admin can:
-  * Add new users
-  * Read users information
-  * Update user's information
-  * Reset a user's password
-* Manager can:
-  * Read users information
-  * Update user's information except:
-    * His/her role
-* User can:
-  * Read users information
-  * Update his/her own information except:
-    * Active status
-    * Locked status
-    * His/her role
-
-## More Business Logic
-
-* There is a special super admin with the username "admin".
-  <br>
-  This user cannot be deleted or updated except for his profile picture.
-  <br><br>
-* If a user tries to log in with a correct username but fails 6 times in a row,
-  <br>
-  the account will be locked. Only a manager, admin or super admin can unlock this account.
-  <br><br>
-* Passwords are automatically generated and sent by email to users upon registration or upon resetting it.
-  <br><br>
-* There is a search functionality. It helps to look for a user by first name, last name, username or email.
-  <br><br>
-* Unauthorized actions will result in an error being sent by
-  <a href="https://github.com/spencer-forrest-java/spring-user-management-api">the backend</a>:
-  * For instance, the delete button is intentionally shown for users with the role "admin" even though they do not have
-    the "Delete" authority.
-  * If an "admin" tries to delete a user, an error message will appear stating that this user does not have enough
-    permission to perform this action.
-    <br><br>
-    ![Delete error](images/delete-error.png)
