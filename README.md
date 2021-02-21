@@ -56,6 +56,8 @@ A user is assigned a role. There are 4 roles in total:
 * There is a special super admin with the username "admin".
   <br>
   This user cannot be deleted or updated except for his profile picture.
+  <br>
+  Moreover, his password cannot be updated.
   <br><br>
 * If a user tries to log in with a correct username but fails 6 times in a row,
   <br>
