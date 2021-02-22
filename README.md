@@ -59,6 +59,8 @@ A user is assigned a role. There are 4 roles in total:
   <br>
   Moreover, his password cannot be reset.
   <br><br>
+* The special admin authentication information, username and password, is shown on the login page for demonstration purpose.
+  <br><br>
 * If a user tries to log in with a correct username but fails 6 times in a row,
   <br>
   the account will be locked. Only a manager, admin or super admin can unlock this account.
@@ -66,6 +68,8 @@ A user is assigned a role. There are 4 roles in total:
 * Passwords are automatically generated and sent by email to users upon registration or upon resetting it.
   <br><br>
 * There is a search functionality. It helps to look for a user by first name, last name, username or email.
+  <br><br>
+* Only images smaller or equal to 1 MB can be uploaded.
   <br><br>
 * Unauthorized actions will result in an error being sent by
   <a href="https://github.com/spencer-forrest-java/spring-user-management-api">the backend</a>:
