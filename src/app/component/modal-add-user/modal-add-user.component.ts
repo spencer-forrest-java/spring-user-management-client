@@ -18,9 +18,7 @@ export class ModalAddUserComponent implements OnInit, OnDestroy {
 
   public profileImage: File | null = null;
   public fileName: string | null = null;
-
   @Output() private added = new EventEmitter<any>();
-
   private subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService,
@@ -52,13 +50,13 @@ export class ModalAddUserComponent implements OnInit, OnDestroy {
         document.getElementById('new-user-close')?.click();
       }, (errorResponse: HttpErrorResponse) => {
         this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
-        this.profileImage = null;
       })
     );
   }
 
-  public onClose(userForm: NgForm): void {
-    userForm.reset();
+  public onClose(userForm: NgForm, fileInput: HTMLInputElement): void {
+    userForm.resetForm();
+    this.resetFileInput(fileInput);
   }
 
   public onProfileImageChange(target: EventTarget | null): void {
@@ -67,6 +65,12 @@ export class ModalAddUserComponent implements OnInit, OnDestroy {
       this.profileImage = files[0];
       this.fileName = this.profileImage.name;
     }
+  }
+
+  private resetFileInput(fileInput: HTMLInputElement): void {
+    fileInput.value = '';
+    this.profileImage = null;
+    this.fileName = null;
   }
 
   private getUserRole(): string {

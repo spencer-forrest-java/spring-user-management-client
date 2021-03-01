@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title text-center">New User</h5>
-      <button (click)="onClose(newUserForm)" aria-label="Close" class="close" data-dismiss="modal" type="button">
+      <button (click)="onClose(newUserForm, profileImage)" aria-label="Close" class="close" data-dismiss="modal" type="button">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -45,8 +45,8 @@
             </div>
             <div class="custom-file">
               <input (change)="onProfileImageChange($event.target)" accept="image/*" class="custom-file-input"
-                     name="profileImage" type="file"/>
-              <label class="custom-file-label">
+                     #profileImage type="file"/>
+              <label class="custom-file-label text-truncate">
                 <span [hidden]="!fileName">{{ fileName }}</span>
                 <span [hidden]="fileName">Choose File</span>
               </label>
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button (click)="onClose(newUserForm)" class="btn btn-secondary" data-dismiss="modal" id="new-user-close"
+      <button (click)="onClose(newUserForm, profileImage)" class="btn btn-secondary" data-dismiss="modal" id="new-user-close"
               type="button">
         Close
       </button>

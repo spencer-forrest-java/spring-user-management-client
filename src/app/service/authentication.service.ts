@@ -16,11 +16,6 @@ export class AuthenticationService {
 
   constructor(private httpClient: HttpClient) {
   }
-
-  get loggedUsername(): string {
-    return this.loggedInUsername;
-  }
-
   public login(user: User): Observable<HttpResponse<User>> {
     return this.httpClient.post<User>(`${this.host}/user/login`, user, {observe: 'response'});
   }
@@ -48,8 +43,7 @@ export class AuthenticationService {
 
   public getUserFromLocalCache(): User {
     const userString = localStorage.getItem('user');
-    const result = userString === null ? null : JSON.parse(userString);
-    return result;
+    return userString === null ? null : JSON.parse(userString);
   }
 
   public loadToken(): void {

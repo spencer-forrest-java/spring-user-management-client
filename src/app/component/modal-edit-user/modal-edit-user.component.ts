@@ -7,6 +7,7 @@ import {User} from 'src/app/model/user';
 import {AuthenticationService} from 'src/app/service/authentication.service';
 import {NotificationService} from 'src/app/service/notification.service';
 import {UserService} from 'src/app/service/user.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-modal-edit-user',
@@ -51,7 +52,7 @@ export class ModalEditUserComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(element => element.unsubscribe());
   }
 
-  public onUpdateUser(): void {
+  public onUpdateUser(fileInput: HTMLInputElement): void {
     const formData = this.userService.createUserFormData(this.currentUsername, this.editUser, this.profileImage);
     const isCurrentUser = this.loggedInUser.username === this.currentUsername;
     this.subscriptions.push(
@@ -60,13 +61,13 @@ export class ModalEditUserComponent implements OnInit, OnDestroy {
         if (isCurrentUser) {
           this.loggedInUser = response;
         }
-        this.userUpdated.next();
+        this.resetFileInput(fileInput);
         this.fileName = null;
         this.profileImage = null;
+        this.userUpdated.next();
         this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
       }, (errorResponse: HttpErrorResponse) => {
         this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
-        this.profileImage = null;
       })
     );
   }
@@ -77,6 +78,16 @@ export class ModalEditUserComponent implements OnInit, OnDestroy {
       this.profileImage = files[0];
       this.fileName = this.profileImage.name;
     }
+  }
+
+  public onClose(fileInput: HTMLInputElement): void {
+    this.resetFileInput(fileInput);
+  }
+
+  private resetFileInput(fileInput: HTMLInputElement): void {
+    fileInput.value = '';
+    this.profileImage = null;
+    this.fileName = null;
   }
 
   private getUserRole(): string {

@@ -5,7 +5,8 @@
         Edit {{ editUser?.firstName }} {{ editUser?.lastName }}
         <small [hidden]="isAdminOrManager"> (read only) </small>
       </h5>
-      <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+      <button (click)="onClose(profileImageInput)" aria-label="Close" class="close" data-dismiss="modal"
+              type="button">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -58,10 +59,10 @@
 
               <input (change)="onProfileImageChange($event.target)" [disabled]="!isAdminOrManager" accept="image/*"
                      class="custom-file-input"
-                     name="profileImage"
+                     #profileImageInput
                      type="file"/>
 
-              <label class="custom-file-label">
+              <label class="custom-file-label text-truncate">
                 <span [hidden]="!fileName">{{ fileName }}</span>
                 <span [hidden]="fileName">Choose File</span>
               </label>
@@ -87,11 +88,12 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" data-dismiss="modal" id="closeEditUserModalButton" type="button">
+      <button (click)="onClose(profileImageInput)" class="btn btn-secondary" data-dismiss="modal"
+              id="closeEditUserModalButton" type="button">
         Close
       </button>
-      <button (click)="onUpdateUser()" [disabled]="!isAdminOrManager || editUserForm.invalid" class="btn btn-primary"
-              type="button">
+      <button (click)="onUpdateUser(profileImageInput)" [disabled]="!isAdminOrManager || editUserForm.invalid"
+              class="btn btn-primary" type="button">
         Save changes
       </button>
     </div>
